@@ -64,8 +64,39 @@ Required environment variables (see `.env.example`):
 - `WORDPRESS_WEBHOOK_SECRET` - Secret for webhook validation
 
 ## Key Dependencies
-- Next.js 15.3.3 with React 19.1.0
-- TypeScript with strict mode
-- Tailwind CSS with shadcn/ui components
-- React Hook Form for form handling
+- Next.js 15.3.4 with React 19.1.0
+- TypeScript 5.8.3 with strict mode
+- Tailwind CSS with shadcn/ui components and craft-ds design system
+- React Hook Form with Zod validation
+- Google Genkit for AI integration (`@genkit-ai/flow`, `@genkit-ai/googleai`, `@genkit-ai/next`)
 - Lucide React for icons
+
+## AI Integration Architecture
+- Google Genkit flows in `/genkit/` and `/src/genkit/` directories
+- AI-powered menu suggestions and client recommendations
+- API routes at `/api/ai/test/` for AI functionality
+- Configuration in `genkit.config.ts`
+
+## Advanced Data Patterns
+### Pagination System
+- Server-side pagination via `getPostsPaginated()` function
+- Returns both data and pagination metadata (`total`, `totalPages`)
+- Optimized for large content sets without fetching all posts
+
+### Cache Tag Hierarchy
+- Global: `wordpress`
+- Content type: `posts`, `categories`, `tags`, `authors`  
+- Individual: `post-123`, `category-456`
+- Query-specific: `posts-page-1`, `posts-category-123`
+
+### Search & Filtering
+- Debounced search (300ms) with `use-debounce`
+- URL-based state management with `useSearchParams`
+- Server-side filtering across posts, authors, categories, tags
+- Combines search with existing category/tag/author filters
+
+## Configuration Files
+- `site.config.ts` - Site metadata and domain configuration
+- `menu.config.ts` - Navigation menu definitions
+- `next.config.ts` - Image optimization and redirects
+- `genkit.config.ts` - Google AI integration setup
